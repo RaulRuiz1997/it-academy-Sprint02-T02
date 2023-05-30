@@ -52,33 +52,40 @@ SELECT codigo_fabricante FROM producto;
 -- Llista el codi dels fabricants que tenen productes en la taula producto, eliminant els codis que apareixen repetits.
 SELECT DISTINCT codigo_fabricante FROM producto;
 -- Llista els noms dels fabricants ordenats de manera ascendent.
-SELECT nombre FROM fabricante
-ORDER BY nombre ASC;
+SELECT nombre FROM fabricante ORDER BY nombre ASC;
 -- Llista els noms dels fabricants ordenats de manera descendent.
-SELECT nombre FROM fabricante
-ORDER BY nombre DESC;
+SELECT nombre FROM fabricante ORDER BY nombre DESC;
 -- Llista els noms dels productes ordenats, en primer lloc, pel nom de manera ascendent i, en segon lloc, pel preu de manera descendent.
-SELECT * FROM producto
-ORDER BY nombre ASC, precio DESC;
+SELECT * FROM producto ORDER BY nombre ASC, precio DESC;
 -- Retorna una llista amb les 5 primeres files de la taula fabricante.
-SELECT * FROM fabricante
-LIMIT 0, 5;
+SELECT * FROM fabricante LIMIT 0, 5;
 -- Retorna una llista amb 2 files a partir de la quarta fila de la taula fabricante. La quarta fila també s'ha d'incloure en la resposta.
-SELECT * FROM fabricante
-LIMIT 3, 2;
+SELECT * FROM fabricante LIMIT 3, 2;
 -- Llista el nom i el preu del producte més barat. (Utilitza solament les clàusules ORDER BY i LIMIT). NOTA: Aquí no podria usar MIN(preu), necessitaria GROUP BY.
-
+SELECT nombre, precio FROM producto ORDER BY precio ASC LIMIT 0, 2;
 -- Llista el nom i el preu del producte més car. (Utilitza solament les clàusules ORDER BY i LIMIT). NOTA: Aquí no podria usar MAX(preu), necessitaria GROUP BY.
+SELECT nombre, precio FROM producto ORDER BY precio LIMIT 0, 2;
 -- Llista el nom de tots els productes del fabricant el codi de fabricant del qual és igual a 2.
+SELECT nombre FROM producto WHERE codigo_fabricante = 2;
 -- Retorna una llista amb el nom del producte, preu i nom de fabricant de tots els productes de la base de dades.
--- Retorna una llista amb el nom del producte, preu i nom de fabricant de tots els productes de la base de dades. Ordena el resultat pel nom del fabricant, per ordre alfabètic.
+SELECT p.nombre, p.precio, f.nombre FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo;
+-- Retorna una llista amb el nom del producte, preu i nom de fabricant de tots els productes de la base de dades.
+-- Ordena el resultat pel nom del fabricant, per ordre alfabètic.
+SELECT p.nombre, p.precio, f.nombre FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo ORDER BY f.nombre;
 -- Retorna una llista amb el codi del producte, nom del producte, codi del fabricador i nom del fabricador, de tots els productes de la base de dades.
+SELECT p.codigo, p.nombre, p.codigo_fabricante, f.nombre FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo;
 -- Retorna el nom del producte, el seu preu i el nom del seu fabricant, del producte més barat.
+SELECT p.nombre, MIN(p.precio), f.nombre  FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo;
 -- Retorna el nom del producte, el seu preu i el nom del seu fabricant, del producte més car.
+SELECT p.nombre, MAX(p.precio), f.nombre  FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo;
 -- Retorna una llista de tots els productes del fabricant Lenovo.
+SELECT * FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre = 'Lenovo';
 -- Retorna una llista de tots els productes del fabricant Crucial que tinguin un preu major que 200 €.
+SELECT * FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre = 'Crucial' AND precio > 200;
 -- Retorna un llistat amb tots els productes dels fabricants Asus, Hewlett-Packardy Seagate. Sense utilitzar l'operador IN.
+SELECT * FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre = 'Asus' OR f.nombre = 'Hewlett-Packardy' OR f.nombre = 'Seagate';
 -- Retorna un llistat amb tots els productes dels fabricants Asus, Hewlett-Packardy Seagate. Fent servir l'operador IN.
+SELECT * FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre IN ('Asus', 'Hewlett-Packardy', 'Seagate');
 -- Retorna un llistat amb el nom i el preu de tots els productes dels fabricants el nom dels quals acabi per la vocal e.
 -- Retorna un llistat amb el nom i el preu de tots els productes el nom de fabricant dels quals contingui el caràcter w en el seu nom.
 -- Retorna un llistat amb el nom de producte, preu i nom de fabricant, de tots els productes que tinguin un preu major o igual a 180 €. Ordena el resultat, en primer lloc, pel preu (en ordre descendent) i, en segon lloc, pel nom (en ordre ascendent).
